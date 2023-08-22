@@ -21,6 +21,25 @@ jobs:
     - name: Install dbt
       run: pip install dbt-snowflake
 
+    - name: Set up dbt profile
+      run: |
+        mkdir -p ~/.dbt
+        echo "
+        default:
+          target: dev
+          outputs:
+            dev:
+              type: snowflake
+              threads: 14
+              account: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
+              database: analytics
+              role: transformer
+              schema: dbt_jeff
+              warehouse: dbt_xs
+              user: ${{ secrets.DBT_SNOWFLAKE_USER }}
+              pass: ${{ secrets.DBT_SNOWFLAKE_PASS }}
+        " > ~/.dbt/profiles.yml      
+
     - name: Generate dbt docs
       run: dbt docs generate
 
