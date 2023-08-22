@@ -3,7 +3,7 @@ version: 2
 models:
   - name: carts_01
     description: |
-      Unnests the JSON in the stg_s3__web_traffic table for any file with 'carts' in the name.
+      Unnests the JSON in the stg_s3__web_traffic table for any file with 'carts' in the name..
       Uses the unnest_json.sql macro with no modifications.
     columns:
       - name: json_data
