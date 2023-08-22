@@ -37,7 +37,7 @@ jobs:
               schema: dbt_jeff
               warehouse: dbt_xs
               user: ${{ secrets.DBT_SNOWFLAKE_USER }}
-              pass: ${{ secrets.DBT_SNOWFLAKE_PASS }}
+              password: ${{ secrets.DBT_SNOWFLAKE_PASS }}
         " > ~/.dbt/profiles.yml      
 
     - name: Install dependancies
