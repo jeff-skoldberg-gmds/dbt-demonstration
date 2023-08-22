@@ -40,6 +40,9 @@ jobs:
               pass: ${{ secrets.DBT_SNOWFLAKE_PASS }}
         " > ~/.dbt/profiles.yml      
 
+    - name: Install dependancies
+      run: dbt deps
+      
     - name: Generate dbt docs
       run: dbt docs generate
 
