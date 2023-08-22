@@ -33,7 +33,7 @@ models:
     description: "This model Unnests the payload _airbyte_data for the 'carts' files"
     columns:
       - name: json_data
-        description: | 
+        description: |
           The original column from the source table (web_traffic)
           This is the column that is unnested by the unnest_json macro.  The most important column for this model.
 
