@@ -1,0 +1,161 @@
+version: 2
+
+models:
+  - name: user_carts
+    description: |
+      Combines the carts_f table with the users_d table to give a full picture of a users' cart.
+      Includes all product attributes, cart attributes, and attributes of the user.
+      Ready for analysis by reporting team.
+    columns:
+      - name: userid
+        description: "ID of the user"
+
+      - name: carts_id
+        description: "ID of the cart"
+
+      - name: totalproducts
+        description: ""
+
+      - name: totalquantity
+        description: ""
+
+      - name: carts_total
+        description: ""
+
+      - name: discountedtotal
+        description: ""
+
+      - name: carts_products_id
+        description: ""
+
+      - name: discountpercentage
+        description: ""
+
+      - name: discountedprice
+        description: ""
+
+      - name: price
+        description: ""
+
+      - name: quantity
+        description: ""
+
+      - name: title
+        description: ""
+
+      - name: line_total
+        description: ""
+
+      - name: age
+        description: ""
+
+      - name: bank
+        description: ""
+
+      - name: birthdate
+        description: ""
+
+      - name: bloodgroup
+        description: ""
+
+      - name: company_json
+        description: ""
+
+      - name: domain
+        description: ""
+
+      - name: ein
+        description: ""
+
+      - name: email
+        description: ""
+
+      - name: gender
+        description: ""
+
+      - name: height
+        description: ""
+
+      - name: image
+        description: ""
+
+      - name: lastname
+        description: ""
+
+      - name: macaddress
+        description: ""
+
+      - name: maidenname
+        description: ""
+
+      - name: password
+        description: ""
+
+      - name: phone
+        description: ""
+
+      - name: ssn
+        description: ""
+
+      - name: weight
+        description: ""
+
+      - name: eyecolor
+        description: ""
+
+      - name: ip
+        description: ""
+
+      - name: username
+        description: ""
+
+      - name: firstname
+        description: ""
+
+      - name: hair
+        description: ""
+
+      - name: useragent
+        description: ""
+
+      - name: university
+        description: ""
+
+      - name: user_address
+        description: ""
+
+      - name: user_city
+        description: ""
+
+      - name: user_coordinates
+        description: ""
+
+      - name: user_state
+        description: ""
+
+      - name: user_postalcode
+        description: ""
+
+      - name: company_department
+        description: ""
+
+      - name: company_name
+        description: ""
+
+      - name: company_job_title
+        description: ""
+
+      - name: company_address
+        description: ""
+
+      - name: company_city
+        description: ""
+
+      - name: company_coordinates
+        description: ""
+
+      - name: company_state
+        description: ""
+
+      - name: company_postalcode
+        description: ""

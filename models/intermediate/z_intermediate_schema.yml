@@ -1,0 +1,501 @@
+version: 2
+
+models:
+  - name: carts_01
+    description: |
+      Unnest the JSON in the stg_s3__web_traffic table for any file with 'carts' in the name.
+      Uses the unnest_json.sql macro with no modifications.
+    columns:
+      - name: json_data
+        description: |
+          The original column from the source table (web_traffic)
+          This is the column that is unnested by the unnest_json macro.  The most important column for this model.
+
+      - name: file_name
+        description: "The file name on S3"
+
+      - name: file_row_number
+        description: "The row number from the file on S3"
+
+      - name: copied_at
+        description: "The time the data was copied into Snowflake"
+
+      - name: _airbyte_ab_id
+        description: "Unique ID created by airbyte when it wrote the data to S3."
+
+      - name: _airbyte_data
+        description: "Raw JSON data written by Airbyte.  This is what "
+
+      - name: _airbyte_emitted_at
+        description: "The timestamp that airbyte wrote the data to S3"
+
+  - name: carts_02
+    description: "This model Unnests the payload _airbyte_data for the 'carts' files"
+    columns:
+      - name: json_data
+        description: |
+          The original column from the source table (web_traffic)
+          This is the column that is unnested by the unnest_json macro.  The most important column for this model.
+
+      - name: file_name
+        description: "The file name on S3"
+
+      - name: file_row_number
+        description: "The row number from the file on S3"
+
+      - name: copied_at
+        description: "The time the data was copied into Snowflake"
+
+      - name: _airbyte_ab_id
+        description: "Unique ID created by airbyte when it wrote the data to S3."
+
+      - name: _airbyte_data
+        description: "Raw JSON data written by Airbyte.  This is what "
+
+      - name: _airbyte_emitted_at
+        description: "The timestamp that airbyte wrote the data to S3"
+
+      - name: discountedtotal
+        description: "Total after discounts given"
+
+      - name: products
+        description: "Products in the cart"
+
+      - name: total
+        description: "Total dollar amount for the cart"
+
+      - name: totalproducts
+        description: "Total number of products in the cart"
+
+      - name: totalquantity
+        description: "Total Quantity for the cart"
+
+      - name: userid
+        description: "ID of user who the cart belongs to"
+
+      - name: carts_id
+        description: "unique ID for the cart"
+        tests:
+          - not_null
+
+  - name: carts_f
+    description: "Fact table for carts data.  Combines data from models carts_products_01 and carts_02"
+    columns:
+      - name: carts_id
+        description: "ID for the cart.  This id is NOT unique on this table, because this table is at the cart+product grain"
+        tests:
+          - not_null
+
+      - name: userid
+        description: "Unique id for the user"
+        tests:
+          - not_null
+
+      - name: totalproducts
+        description: ""
+
+      - name: totalquantity
+        description: ""
+
+      - name: carts_total
+        description: ""
+
+      - name: discountedtotal
+        description: ""
+
+      - name: carts_products_id
+        description: "Identifies a unique combination of cart and product"
+        tests:
+          - not_null
+
+      - name: discountpercentage
+        description: ""
+
+      - name: discountedprice
+        description: ""
+
+      - name: price
+        description: ""
+
+      - name: quantity
+        description: ""
+
+      - name: title
+        description: ""
+
+      - name: line_total
+        description: ""
+
+  - name: carts_products_01
+    description: "Unnests the products field from the carts_02.  Expands the grain of the carts data to the product level"
+    columns:
+      - name: _airbyte_ab_id
+        description: "Unique ID created by airbyte when it wrote the data to S3."
+
+      - name: carts_products_id
+        description: "Unique ID for this table"
+        tests:
+          - unique
+          - not_null
+
+      - name: carts_id
+        description: "Unique ID for the cart.  This is NOT unique on this table since this table is at the Cart + Product grain"
+        tests:
+          - not_null
+
+      - name: userid
+        description: "Unique ID for the user who owns the cart"
+
+      - name: products
+        description: "Original JSON field for Products before it is unnested"
+
+      - name: discountpercentage
+        description: ""
+
+      - name: discountedprice
+        description: ""
+
+      - name: price
+        description: ""
+
+      - name: quantity
+        description: ""
+
+      - name: title
+        description: ""
+
+      - name: total
+        description: ""
+
+  - name: users_01
+    description: |
+      Unnest the JSON in the stg_s3__web_traffic table for any file with 'users' in the name.
+      Uses the unnest_json.sql macro with no modifications.
+    columns:
+      - name: json_data
+        description: |
+          The original column from the source table (web_traffic)
+          This is the column that is unnested by the unnest_json macro.  The most important column for this model.
+
+      - name: file_name
+        description: "The file name on S3"
+
+      - name: file_row_number
+        description: "The row number from the file on S3"
+
+      - name: copied_at
+        description: "The time the data was copied into Snowflake"
+
+      - name: _airbyte_ab_id
+        description: "Unique ID created by airbyte when it wrote the data to S3."
+
+      - name: _airbyte_data
+        description: "Raw JSON data written by Airbyte.  This is what "
+
+      - name: _airbyte_emitted_at
+        description: "The timestamp that airbyte wrote the data to S3"
+
+  - name: users_02
+    description: "This model Unnests the payload _airbyte_data for the 'users' files"
+    columns:
+      - name: json_data
+        description: |
+          The original column from the source table (web_traffic)
+          This is the column that is unnested by the unnest_json macro.  The most important column for this model.
+
+      - name: file_name
+        description: "The file name on S3"
+
+      - name: file_row_number
+        description: "The row number from the file on S3"
+
+      - name: copied_at
+        description: "The time the data was copied into Snowflake"
+
+      - name: _airbyte_ab_id
+        description: "Unique ID created by airbyte when it wrote the data to S3."
+
+      - name: _airbyte_data
+        description: "Raw JSON data written by Airbyte.  This is what "
+
+      - name: _airbyte_emitted_at
+        description: "The timestamp that airbyte wrote the data to S3"
+
+      - name: address_json
+        description: "Renamed the address field to address_json to avoid name conflicts after it is unneseted."
+
+      - name: age
+        description: ""
+
+      - name: bank
+        description: ""
+
+      - name: birthdate
+        description: ""
+
+      - name: bloodgroup
+        description: ""
+
+      - name: company_json
+        description: ""
+
+      - name: domain
+        description: ""
+
+      - name: ein
+        description: ""
+
+      - name: email
+        description: ""
+
+      - name: gender
+        description: ""
+
+      - name: height
+        description: ""
+
+      - name: image
+        description: ""
+
+      - name: lastname
+        description: ""
+
+      - name: macaddress
+        description: ""
+
+      - name: maidenname
+        description: ""
+
+      - name: password
+        description: ""
+
+      - name: phone
+        description: ""
+
+      - name: ssn
+        description: ""
+
+      - name: weight
+        description: ""
+
+      - name: eyecolor
+        description: ""
+
+      - name: ip
+        description: ""
+
+      - name: username
+        description: ""
+
+      - name: firstname
+        description: ""
+
+      - name: hair
+        description: ""
+
+      - name: useragent
+        description: ""
+
+      - name: id
+        description: "Unique id for the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: university
+        description: ""
+
+  - name: users_03_address
+    description: "Unnests the address_json field on the users_02 table"
+    columns:
+      - name: json_data
+        description: "The original json data on S3"
+
+      - name: id
+        description: "User ID"
+
+      - name: user_address
+        description: ""
+
+      - name: user_city
+        description: ""
+
+      - name: user_coordinates
+        description: ""
+
+      - name: user_state
+        description: ""
+
+      - name: user_postalcode
+        description: ""
+
+  - name: users_03_company_address
+    description: "Unnests the company_address field on the users_03_company table"
+    columns:
+      - name: json_data
+        description: "Original JSON data from S3"
+
+      - name: id
+        description: "User ID"
+
+      - name: company_address
+        description: "JSON data containing address details"
+
+      - name: company_city
+        description: ""
+
+      - name: company_coordinates
+        description: ""
+
+      - name: company_state
+        description: ""
+
+      - name: company_postalcode
+        description: ""
+
+  - name: users_03_company
+    description: "Unnests the company_json field on the users_02 table"
+    columns:
+      - name: json_data
+        description: "Original JSON data from S3"
+
+      - name: id
+        description: "user ID"
+
+      - name: company_address
+        description: ""
+
+      - name: company_department
+        description: ""
+
+      - name: company_name
+        description: ""
+
+      - name: company_job_title
+        description: ""
+
+  - name: users_d
+    description: | 
+      Joins models users_02, users_03_address, users_03_company_address, users_03_company to give a full picture of all elements related to the user
+    columns:
+      - name: id
+        description: ""
+        tests:
+          - unique
+          - not_null
+
+      - name: age
+        description: ""
+
+      - name: bank
+        description: ""
+
+      - name: birthdate
+        description: ""
+
+      - name: bloodgroup
+        description: ""
+
+      - name: company_json
+        description: ""
+
+      - name: domain
+        description: ""
+
+      - name: ein
+        description: ""
+
+      - name: email
+        description: ""
+
+      - name: gender
+        description: ""
+
+      - name: height
+        description: ""
+
+      - name: image
+        description: ""
+
+      - name: lastname
+        description: ""
+
+      - name: macaddress
+        description: ""
+
+      - name: maidenname
+        description: ""
+
+      - name: password
+        description: ""
+
+      - name: phone
+        description: ""
+
+      - name: ssn
+        description: ""
+
+      - name: weight
+        description: ""
+
+      - name: eyecolor
+        description: ""
+
+      - name: ip
+        description: ""
+
+      - name: username
+        description: ""
+
+      - name: firstname
+        description: ""
+
+      - name: hair
+        description: ""
+
+      - name: useragent
+        description: ""
+
+      - name: university
+        description: ""
+
+      - name: user_address
+        description: ""
+
+      - name: user_city
+        description: ""
+
+      - name: user_coordinates
+        description: ""
+
+      - name: user_state
+        description: ""
+
+      - name: user_postalcode
+        description: ""
+
+      - name: company_department
+        description: ""
+
+      - name: company_name
+        description: ""
+
+      - name: company_job_title
+        description: ""
+
+      - name: company_address
+        description: ""
+
+      - name: company_city
+        description: ""
+
+      - name: company_coordinates
+        description: ""
+
+      - name: company_state
+        description: ""
+
+      - name: company_postalcode
+        description: ""
+
+ 

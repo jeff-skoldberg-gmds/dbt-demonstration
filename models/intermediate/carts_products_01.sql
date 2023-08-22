@@ -1,6 +1,6 @@
 SELECT 
     _airbyte_ab_id,
-    flattened.value:id::INTEGER AS carts_products_id,
+    flattened.value:id::INTEGER||carts_id  AS carts_products_id,
     carts_id,
     userid,
     products,

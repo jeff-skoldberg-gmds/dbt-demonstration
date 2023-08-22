@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_s3__web_traffic
+    description: |
+      Source data from S3, copied into Snowflake by Matillion
+    columns:
+      - name: json_data
+        description: "Raw data from the API"
+
+      - name: file_name
+        description: "The file name on S3"
+
+      - name: file_row_number
+        description: "The row number from the file on S3"
+
+      - name: copied_at
+        description: "The time the data was copied into Snowflake"
