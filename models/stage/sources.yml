@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: sample_data
+    database: RAW
+    schema: sample_data
+    tables:
+      - name: web_traffic
+        columns:
+        - name: json_data
+          description: VARIANT
