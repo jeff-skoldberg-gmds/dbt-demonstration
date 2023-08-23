@@ -1,0 +1,13 @@
+version: 2
+
+macros:
+  - name: unnest_json
+    description: |
+      unnests json a single level.
+      This is done by finding the distinct keys.  Each key becomes a column header, then we flatten the data for each new column header.
+
+  - name: get_custom_schema
+    description: |
+      Build in personal schema (DBT_YOURNAME) in dev.
+      Build in QA_SCHEMA_NAME in qa
+      build in SCHEMA_NAME in prod

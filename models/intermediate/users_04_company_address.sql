@@ -12,7 +12,7 @@ with unnest_json as
 ),
 final as
 (
-  select json_data,
+  select
   id,
   address as company_address,
   city as company_city,

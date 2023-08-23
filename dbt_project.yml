@@ -37,9 +37,12 @@ models:
     stage:
       +materialized: view
       +schema: stage
+      +database: analytics
     intermediate:
       +materialized: view
       +schema: intermediate
+      +database: analytics
     reporting:
       +materialized: table
-      +schema: reporting      
+      +schema: reporting
+      +database: analytics

@@ -7,16 +7,16 @@
 
 with 
 users as (
-  select * exclude (json_data,file_name,file_row_number,copied_at,_airbyte_ab_id,_airbyte_data,_airbyte_emitted_at,address_json) from {{ ref('users_02') }}
+  select * exclude (address_json,file_name,file_row_number,copied_at) from {{ ref('users_02') }}
   ),
 users_address as (
-  select * exclude (json_data) from {{ ref('users_03_address') }}
+  select * exclude (file_name,file_row_number,copied_at)  from {{ ref('users_03_address') }}
   ),
 users_company as (
-  select * exclude (json_data, company_address) from {{ ref('users_03_company') }}
+  select * exclude (company_address) from {{ ref('users_03_company') }}
   ),
 users_company_address as (
-  select * exclude (json_data) from {{ ref('users_03_company_address') }}
+  select *  from {{ ref('users_04_company_address') }}
   ),
 joined as 
 (

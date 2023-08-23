@@ -3,13 +3,15 @@ version: 2
 models:
   - name: carts_01
     description: |
-      Unnests the JSON in the stg_s3__web_traffic table for any file with 'carts' in the name..
-      Uses the unnest_json.sql macro with no modifications.
+      Flatten the source data (stg_s3__web_traffic) into one row per "cart".
     columns:
-      - name: json_data
+      - name: carts_json
         description: |
-          The original column from the source table (web_traffic)
-          This is the column that is unnested by the unnest_json macro.  The most important column for this model.
+          The original column from the source table (web_traffic), flattened into multiple rows.
+          One row per "cart".
+          Primary key is `id`
+        tests:
+          - unique
 
       - name: file_name
         description: "The file name on S3"
@@ -19,22 +21,13 @@ models:
 
       - name: copied_at
         description: "The time the data was copied into Snowflake"
-
-      - name: _airbyte_ab_id
-        description: "Unique ID created by airbyte when it wrote the data to S3."
-
-      - name: _airbyte_data
-        description: "Raw JSON data written by Airbyte.  This is what "
-
-      - name: _airbyte_emitted_at
-        description: "The timestamp that airbyte wrote the data to S3"
 
   - name: carts_02
-    description: "This model Unnests the payload _airbyte_data for the 'carts' files"
+    description: "This model unnests the carts_json column into multiple columns"
     columns:
-      - name: json_data
+      - name: carts_json
         description: |
-          The original column from the source table (web_traffic)
+          The original column from the source table (carts_01)
           This is the column that is unnested by the unnest_json macro.  The most important column for this model.
 
       - name: file_name
@@ -45,15 +38,6 @@ models:
 
       - name: copied_at
         description: "The time the data was copied into Snowflake"
-
-      - name: _airbyte_ab_id
-        description: "Unique ID created by airbyte when it wrote the data to S3."
-
-      - name: _airbyte_data
-        description: "Raw JSON data written by Airbyte.  This is what "
-
-      - name: _airbyte_emitted_at
-        description: "The timestamp that airbyte wrote the data to S3"
 
       - name: discountedtotal
         description: "Total after discounts given"
@@ -127,10 +111,8 @@ models:
         description: ""
 
   - name: carts_products_01
-    description: "Unnests the products field from the carts_02.  Expands the grain of the carts data to the product level"
+    description: "Unnests the products field from the carts_02.  Expands the grain of the carts data to the product level (creates multiple rows)."
     columns:
-      - name: _airbyte_ab_id
-        description: "Unique ID created by airbyte when it wrote the data to S3."
 
       - name: carts_products_id
         description: "Unique ID for this table"
@@ -150,32 +132,43 @@ models:
         description: "Original JSON field for Products before it is unnested"
 
       - name: discountpercentage
-        description: ""
+        description: "Percent discount"
 
       - name: discountedprice
-        description: ""
+        description: "price after discount"
 
       - name: price
-        description: ""
+        description: "original price"
 
       - name: quantity
-        description: ""
+        description: "line quantity"
 
       - name: title
-        description: ""
+        description: "product title"
 
       - name: total
-        description: ""
+        description: "cart total"
+
+      - name: file_name
+        description: "The file name on S3"
+
+      - name: file_row_number
+        description: "The row number from the file on S3"
+
+      - name: copied_at
+        description: "The time the data was copied into Snowflake"        
 
   - name: users_01
     description: |
-      Unnest the JSON in the stg_s3__web_traffic table for any file with 'users' in the name.
-      Uses the unnest_json.sql macro with no modifications.
+          Flatten the source data (stg_s3__web_traffic) into one row per "user".
     columns:
-      - name: json_data
+      - name: users_json
         description: |
-          The original column from the source table (web_traffic)
-          This is the column that is unnested by the unnest_json macro.  The most important column for this model.
+          The original column from the source table (web_traffic), flattened into multiple rows.
+          One row per "user".
+          Primary key is `id`
+        tests:
+          - unique
 
       - name: file_name
         description: "The file name on S3"
@@ -185,20 +178,11 @@ models:
 
       - name: copied_at
         description: "The time the data was copied into Snowflake"
-
-      - name: _airbyte_ab_id
-        description: "Unique ID created by airbyte when it wrote the data to S3."
-
-      - name: _airbyte_data
-        description: "Raw JSON data written by Airbyte.  This is what "
-
-      - name: _airbyte_emitted_at
-        description: "The timestamp that airbyte wrote the data to S3"
 
   - name: users_02
-    description: "This model Unnests the payload _airbyte_data for the 'users' files"
+    description: "This model unnests the users_json column into multiple columns."
     columns:
-      - name: json_data
+      - name: users_json
         description: |
           The original column from the source table (web_traffic)
           This is the column that is unnested by the unnest_json macro.  The most important column for this model.
@@ -211,15 +195,6 @@ models:
 
       - name: copied_at
         description: "The time the data was copied into Snowflake"
-
-      - name: _airbyte_ab_id
-        description: "Unique ID created by airbyte when it wrote the data to S3."
-
-      - name: _airbyte_data
-        description: "Raw JSON data written by Airbyte.  This is what "
-
-      - name: _airbyte_emitted_at
-        description: "The timestamp that airbyte wrote the data to S3"
 
       - name: address_json
         description: "Renamed the address field to address_json to avoid name conflicts after it is unneseted."
@@ -308,8 +283,6 @@ models:
   - name: users_03_address
     description: "Unnests the address_json field on the users_02 table"
     columns:
-      - name: json_data
-        description: "The original json data on S3"
 
       - name: id
         description: "User ID"
@@ -329,11 +302,9 @@ models:
       - name: user_postalcode
         description: ""
 
-  - name: users_03_company_address
+  - name: users_04_company_address
     description: "Unnests the company_address field on the users_03_company table"
     columns:
-      - name: json_data
-        description: "Original JSON data from S3"
 
       - name: id
         description: "User ID"
@@ -356,8 +327,6 @@ models:
   - name: users_03_company
     description: "Unnests the company_json field on the users_02 table"
     columns:
-      - name: json_data
-        description: "Original JSON data from S3"
 
       - name: id
         description: "user ID"
