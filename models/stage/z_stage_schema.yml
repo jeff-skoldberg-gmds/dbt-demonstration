@@ -3,6 +3,7 @@ version: 2
 models:
   - name: stg_s3__web_traffic
     description: |
+      dbt "staging model", does nothing but select the columns from the source and ensure data type casting, cleaning, and renaming is done up front.
       Source data from S3, copied into Snowflake by Matillion
     columns:
       - name: json_data
@@ -12,7 +13,7 @@ models:
         description: "The file name on S3"
 
       - name: file_row_number
-        description: "The row number from the file on S3"
+        description: "The row number from the file on S3, casted to int"
 
       - name: copied_at
-        description: "The time the data was copied into Snowflake"
+        description: "The time the data was copied into Snowflake, casted to timestamptz"

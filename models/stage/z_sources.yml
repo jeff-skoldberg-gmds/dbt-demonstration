@@ -2,6 +2,9 @@ version: 2
 
 sources:
   - name: sample_data
+    description: |
+      This is the raw data copied into snowflake by Matillion.
+      This table is the single source for the entire model
     database: RAW
     schema: sample_data
     tables:
@@ -9,3 +12,7 @@ sources:
         columns:
         - name: json_data
           description: VARIANT
+          tests:
+            - unique
+            - not_null
+     

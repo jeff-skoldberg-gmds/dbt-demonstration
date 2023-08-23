@@ -1,10 +1,7 @@
-{# ----------------   only change the first two variables -------------------- #}
-
-{%- set json_table = ref('stg_s3__web_traffic') -%}
-{%- set json_column = 'json_data' -%}
-{%- set file_filter = 'users' -%}
-
-
-{#- ----------------   Edit below here only if necessary for a particular model ---------------- -#}
-
-{{- unnest_json(json_table,json_column,file_filter)-}}
+SELECT 
+flattened.value::VARIANT AS users_json,
+file_name,
+file_row_number,
+copied_at::timestamptz copied_at
+FROM {{ ref('stg_s3__web_traffic') }},
+LATERAL FLATTEN(input => {{ ref('stg_s3__web_traffic') }}.json_data:users) AS flattened
