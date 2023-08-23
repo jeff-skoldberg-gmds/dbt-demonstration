@@ -5,7 +5,7 @@
 
 
 select userid
-from analytics.dbt_jeff.carts_f
+from analytics.intermediate.carts_f
 where userid is null
 
 

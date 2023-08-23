@@ -13,5 +13,5 @@ SELECT
     file_row_number,
     copied_at
 FROM 
-    analytics.dbt_jeff.carts_02,
+    analytics.intermediate.carts_02,
     LATERAL FLATTEN(input => products) AS flattened

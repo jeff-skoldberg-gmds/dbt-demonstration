@@ -12,7 +12,7 @@ carts_json:totalQuantity as totalQuantity,
 carts_json:userId as userId
 
 from
-analytics.dbt_jeff.carts_01
+analytics.intermediate.carts_01
 
 
   

@@ -1,11 +1,11 @@
 with
 users as
 (
-  select * rename (id as userid) from analytics.dbt_jeff.users_d
+  select * rename (id as userid) from analytics.intermediate.users_d
 ),
 carts as
 (
-  select * from analytics.dbt_jeff.carts_f
+  select * from analytics.intermediate.carts_f
 ),
 joined as
 (

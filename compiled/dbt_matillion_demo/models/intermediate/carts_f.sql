@@ -9,7 +9,7 @@ with carts as
   totalquantity,
   total carts_total,
   discountedtotal
-  from analytics.dbt_jeff.carts_02
+  from analytics.intermediate.carts_02
 ) ,
 carts_products as 
 (
@@ -22,7 +22,7 @@ carts_products as
   quantity,
   title,
   total as line_total
-  from analytics.dbt_jeff.carts_products_01
+  from analytics.intermediate.carts_products_01
 ),
 joined as (
   select * 

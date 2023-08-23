@@ -9,7 +9,7 @@ company_json:name as name,
 company_json:title as title
 
 from
-analytics.dbt_jeff.users_02
+analytics.intermediate.users_02
 
 
   

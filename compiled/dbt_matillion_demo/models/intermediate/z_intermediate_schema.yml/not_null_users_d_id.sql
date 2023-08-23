@@ -5,7 +5,7 @@
 
 
 select id
-from analytics.dbt_jeff.users_d
+from analytics.intermediate.users_d
 where id is null
 
 

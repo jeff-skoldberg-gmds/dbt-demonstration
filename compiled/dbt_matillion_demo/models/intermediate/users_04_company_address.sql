@@ -10,7 +10,7 @@ company_address:postalCode as postalCode,
 company_address:state as state
 
 from
-analytics.dbt_jeff.users_03_company
+analytics.intermediate.users_03_company
 
 
   

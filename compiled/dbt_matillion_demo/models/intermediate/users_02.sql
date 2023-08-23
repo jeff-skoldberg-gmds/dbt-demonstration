@@ -32,7 +32,7 @@ users_json:weight as weight,
 users_json:university as university
 
 from
-analytics.dbt_jeff.users_01
+analytics.intermediate.users_01
 
 
   

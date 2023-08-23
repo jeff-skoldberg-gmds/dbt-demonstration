@@ -10,7 +10,7 @@ address_json:postalCode as postalCode,
 address_json:state as state
 
 from
-analytics.dbt_jeff.users_02
+analytics.intermediate.users_02
 
 
   
