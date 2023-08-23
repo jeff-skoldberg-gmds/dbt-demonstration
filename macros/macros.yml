@@ -15,6 +15,11 @@ macros:
 
   - name: generate_schema_name
     description: |
-      Build in personal schema (DBT_YOURNAME) in dev.
-      Build in QA_SCHEMA_NAME in qa
-      build in SCHEMA_NAME in prod
+      Build in personal schema (DBT_YOURNAME) in dev. 
+      Build in QA_SCHEMA_NAME in qa. 
+      Build in SCHEMA_NAME in prod. 
+    arguments:
+      - name: custom_schema_name
+        description: Custom schema name comes from config rather than profiles.yml
+      - name: node
+        description:  A default parameter populated by dbt.
