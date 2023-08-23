@@ -28,13 +28,13 @@ jobs:
         gmds_demo_aws:
           target: dev
           outputs:
-            dev:
+            prod:
               type: snowflake
               threads: 14
               account: ${{ secrets.DBT_SNOWFLAKE_ACCOUNT }}
               database: analytics
               role: transformer
-              schema: dbt_jeff
+              schema: reporting
               warehouse: dbt_xs
               user: ${{ secrets.DBT_SNOWFLAKE_USER }}
               password: ${{ secrets.DBT_SNOWFLAKE_PASS }}
