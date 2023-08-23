@@ -5,8 +5,15 @@ macros:
     description: |
       unnests json a single level.
       This is done by finding the distinct keys.  Each key becomes a column header, then we flatten the data for each new column header.
+    arguments:
+      - name: json_table
+        description: The source table that contains a variant column that needs to be unnested.
+      - name: json_column
+        description: The variant column to be unnested.
+      - name: file_filter
+        description: Optional paramater; if you want to pass a filename to the `where` clause, it will filter on the file_name field using ililke '%%'
 
-  - name: get_custom_schema
+  - name: generate_schema_name
     description: |
       Build in personal schema (DBT_YOURNAME) in dev.
       Build in QA_SCHEMA_NAME in qa
