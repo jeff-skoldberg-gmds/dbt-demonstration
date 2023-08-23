@@ -3,38 +3,36 @@ with unnest_json as
 
 select
 * ,
-_airbyte_data:address as address, 
-_airbyte_data:age as age, 
-_airbyte_data:bank as bank, 
-_airbyte_data:birthDate as birthDate, 
-_airbyte_data:bloodGroup as bloodGroup, 
-_airbyte_data:company as company, 
-_airbyte_data:domain as domain, 
-_airbyte_data:ein as ein, 
-_airbyte_data:email as email, 
-_airbyte_data:gender as gender, 
-_airbyte_data:height as height, 
-_airbyte_data:image as image, 
-_airbyte_data:lastName as lastName, 
-_airbyte_data:macAddress as macAddress, 
-_airbyte_data:maidenName as maidenName, 
-_airbyte_data:password as password, 
-_airbyte_data:phone as phone, 
-_airbyte_data:ssn as ssn, 
-_airbyte_data:weight as weight, 
-_airbyte_data:eyeColor as eyeColor, 
-_airbyte_data:ip as ip, 
-_airbyte_data:username as username, 
-_airbyte_data:firstName as firstName, 
-_airbyte_data:hair as hair, 
-_airbyte_data:userAgent as userAgent, 
-_airbyte_data:id as id, 
-_airbyte_data:university as university
+users_json:address as address, 
+users_json:age as age, 
+users_json:bank as bank, 
+users_json:birthDate as birthDate, 
+users_json:bloodGroup as bloodGroup, 
+users_json:company as company, 
+users_json:domain as domain, 
+users_json:ein as ein, 
+users_json:email as email, 
+users_json:firstName as firstName, 
+users_json:gender as gender, 
+users_json:id as id, 
+users_json:ip as ip, 
+users_json:lastName as lastName, 
+users_json:macAddress as macAddress, 
+users_json:password as password, 
+users_json:phone as phone, 
+users_json:userAgent as userAgent, 
+users_json:username as username, 
+users_json:hair as hair, 
+users_json:height as height, 
+users_json:image as image, 
+users_json:eyeColor as eyeColor, 
+users_json:maidenName as maidenName, 
+users_json:ssn as ssn, 
+users_json:weight as weight, 
+users_json:university as university
 
 from
 analytics.dbt_jeff.users_01
-
-  where file_name ilike '%users%'
 
 
   

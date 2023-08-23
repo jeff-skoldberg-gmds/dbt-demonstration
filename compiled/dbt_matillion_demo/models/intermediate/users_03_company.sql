@@ -11,14 +11,12 @@ company_json:title as title
 from
 analytics.dbt_jeff.users_02
 
-  where file_name ilike '%users%'
-
 
   
 ),
 level_1 as
 (
-  select json_data,
+  select
   id,
   address as company_address,
   department as company_department,

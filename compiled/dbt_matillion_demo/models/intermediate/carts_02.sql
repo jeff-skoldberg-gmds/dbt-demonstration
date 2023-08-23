@@ -3,18 +3,16 @@ with unnested as
 
 select
 * ,
-_airbyte_data:discountedTotal as discountedTotal, 
-_airbyte_data:products as products, 
-_airbyte_data:total as total, 
-_airbyte_data:totalProducts as totalProducts, 
-_airbyte_data:totalQuantity as totalQuantity, 
-_airbyte_data:userId as userId, 
-_airbyte_data:id as id
+carts_json:discountedTotal as discountedTotal, 
+carts_json:id as id, 
+carts_json:products as products, 
+carts_json:total as total, 
+carts_json:totalProducts as totalProducts, 
+carts_json:totalQuantity as totalQuantity, 
+carts_json:userId as userId
 
 from
 analytics.dbt_jeff.carts_01
-
-  where file_name ilike '%carts%'
 
 
   
