@@ -3,4 +3,4 @@ packages:
     version: 0.10.0
 
   - package: gmdata-co/portable_google_sheets
-    version: 0.1.2
+    version: 0.1.3
