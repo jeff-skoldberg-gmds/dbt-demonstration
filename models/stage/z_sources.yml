@@ -23,11 +23,11 @@ sources:
       - name: sample_data2
         identifier: google_sheets_spreadsheet_values_8589937133
 
-version: 2
+
 
 
   - name: gcs_external
-    description: "This source is used for querying Google Cloud Storage only.  It will not work on other tables in the same schema, due to the @ sign in the database name."
+    description: "This source is used for querying Google Cloud Storage only."
     database: "raw"
     schema:   stage_raw
     loader:   snowflake_stage #info only
