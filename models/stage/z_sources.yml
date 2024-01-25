@@ -27,7 +27,7 @@ sources:
 
 
   - name: gcs_external
-    description: "This source is used for querying Google Cloud Storage only."
+    description: "This source is used for querying Google Cloud Storage only. TEST UPDATE"
     database: "raw"
     schema:   stage_raw
     loader:   snowflake_stage #info only
