@@ -1,0 +1,23 @@
+[sqlfluff]
+templater = jinja
+dialect = redshift
+sql_file_exts = .sql,.sql.j2,.dml,.ddl
+exclude_rules = AM07
+
+[sqlfluff:indentation]
+indented_joins = False
+indented_using_on = True
+template_blocks_indent = False
+
+[sqlfluff:templater]
+unwrap_wrapped_queries = True
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True
+
+
+; [sqlfluff:templater:dbt]
+; project_dir = C:\\Users\\jeff\Documents\\gmds llc\\beta\\git\\dbt-beta
+; profiles_dir = C:\\Users\\jeff\\.dbt
+; profile = dbt_beta
+; target = dev

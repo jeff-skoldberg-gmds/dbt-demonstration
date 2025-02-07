@@ -19,6 +19,6 @@ coordinates as user_coordinates,
 state as user_state,
 postalcode as user_postalcode,
 file_name,
-file_row_number,
+  file_row_number,
 copied_at
 from unnest_json

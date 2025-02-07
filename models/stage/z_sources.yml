@@ -33,4 +33,4 @@ sources:
     loader:   snowflake_stage #info only
     tables:
       - name: json_data_stage
-        identifier: json_data_stage #after stage name is case sensitive!        
+        identifier: json_data_stage #after stage name is case sensitive!

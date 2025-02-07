@@ -1,470 +1,392 @@
 version: 2
-
 models:
   - name: carts_01
     description: |
       Flatten the source data (stg_s3__web_traffic) into one row per "cart".
     columns:
       - name: carts_json
-        description: |
-          The original column from the source table (web_traffic), flattened into multiple rows.
+        description: >
+          The original column from the source table (web_traffic), flattened
+          into multiple rows.
+
           One row per "cart".
+
           Primary key is `id`
         tests:
           - unique
-
       - name: file_name
-        description: "The file name on S3"
-
+        description: The file name on S3
       - name: file_row_number
-        description: "The row number from the file on S3"
-
+        description: The row number from the file on S3
       - name: copied_at
-        description: "The time the data was copied into Snowflake"
-
+        description: The time the data was copied into Snowflake
   - name: carts_02
-    description: "This model unnests the carts_json column into multiple columns"
+    description: This model unnests the carts_json column into multiple columns
     columns:
       - name: carts_json
-        description: |
+        description: >
           The original column from the source table (carts_01)
+
           This is the column that is unnested by the unnest_json macro.  The most important column for this model.
-
       - name: file_name
-        description: "The file name on S3"
-
+        description: The file name on S3
       - name: file_row_number
-        description: "The row number from the file on S3"
-
+        description: The row number from the file on S3
       - name: copied_at
-        description: "The time the data was copied into Snowflake"
-
+        description: The time the data was copied into Snowflake
       - name: discountedtotal
-        description: "Total after discounts given"
-
+        description: Total after discounts given
       - name: products
-        description: "Products in the cart"
-
+        description: Products in the cart
       - name: total
-        description: "Total dollar amount for the cart"
-
+        description: Total dollar amount for the cart
       - name: totalproducts
-        description: "Total number of products in the cart"
-
+        description: Total number of products in the cart
       - name: totalquantity
-        description: "Total Quantity for the cart"
-
+        description: Total Quantity for the cart
       - name: userid
-        description: "ID of user who the cart belongs to"
-
+        description: ID of user who the cart belongs to
       - name: carts_id
-        description: "unique ID for the cart"
+        description: unique ID for the cart
         tests:
           - not_null
-
   - name: carts_f
-    description: "Fact table for carts data.  Combines data from models carts_products_01 and carts_02"
+    description: Fact table for carts data.  Combines data from models
+      carts_products_01 and carts_02
     columns:
       - name: carts_id
-        description: "ID for the cart.  This id is NOT unique on this table, because this table is at the cart+product grain"
+        description: ID for the cart.  This id is NOT unique on this table, because this
+          table is at the cart+product grain
         tests:
           - not_null
-
       - name: userid
-        description: "Unique id for the user"
+        description: Unique id for the user
         tests:
           - not_null
-
       - name: totalproducts
         description: ""
-
       - name: totalquantity
         description: ""
-
       - name: carts_total
         description: ""
-
       - name: discountedtotal
         description: ""
-
       - name: carts_products_id
-        description: "Identifies a unique combination of cart and product"
+        description: Identifies a unique combination of cart and product
         tests:
           - not_null
-
       - name: discountpercentage
         description: ""
-
       - name: discountedprice
         description: ""
-
       - name: price
         description: ""
-
       - name: quantity
         description: ""
-
       - name: title
         description: ""
-
       - name: line_total
         description: ""
-
   - name: carts_products_01
-    description: "Unnests the products field from the carts_02.  Expands the grain of the carts data to the product level (creates multiple rows)."
+    description: Unnests the products field from the carts_02.  Expands the grain of
+      the carts data to the product level (creates multiple rows).
     columns:
-
       - name: carts_products_id
-        description: "Unique ID for this table"
+        description: Unique ID for this table
         tests:
           - unique
           - not_null
-
       - name: carts_id
-        description: "Unique ID for the cart.  This is NOT unique on this table since this table is at the Cart + Product grain"
+        description: Unique ID for the cart.  This is NOT unique on this table since
+          this table is at the Cart + Product grain
         tests:
           - not_null
-
       - name: userid
-        description: "Unique ID for the user who owns the cart"
-
+        description: Unique ID for the user who owns the cart
       - name: products
-        description: "Original JSON field for Products before it is unnested"
-
+        description: Original JSON field for Products before it is unnested
       - name: discountpercentage
-        description: "Percent discount"
-
+        description: Percent discount
       - name: discountedprice
-        description: "price after discount"
-
+        description: price after discount
       - name: price
-        description: "original price"
-
+        description: original price
       - name: quantity
-        description: "line quantity"
-
+        description: line quantity
       - name: title
-        description: "product title"
-
+        description: product title
       - name: total
-        description: "cart total"
-
+        description: cart total
       - name: file_name
-        description: "The file name on S3"
-
+        description: The file name on S3
       - name: file_row_number
-        description: "The row number from the file on S3"
-
+        description: The row number from the file on S3
       - name: copied_at
-        description: "The time the data was copied into Snowflake"        
-
+        description: The time the data was copied into Snowflake
   - name: users_01
     description: |
-          Flatten the source data (stg_s3__web_traffic) into one row per "user".
+      Flatten the source data (stg_s3__web_traffic) into one row per "user".
     columns:
       - name: users_json
-        description: |
-          The original column from the source table (web_traffic), flattened into multiple rows.
+        description: >
+          The original column from the source table (web_traffic), flattened
+          into multiple rows.
+
           One row per "user".
+
           Primary key is `id`
         tests:
           - unique
-
       - name: file_name
-        description: "The file name on S3"
-
+        description: The file name on S3
       - name: file_row_number
-        description: "The row number from the file on S3"
-
+        description: The row number from the file on S3
       - name: copied_at
-        description: "The time the data was copied into Snowflake"
-
+        description: The time the data was copied into Snowflake
   - name: users_02
-    description: "This model unnests the users_json column into multiple columns."
+    description: This model unnests the users_json column into multiple columns.
     columns:
       - name: users_json
-        description: |
+        description: >
           The original column from the source table (web_traffic)
+
           This is the column that is unnested by the unnest_json macro.  The most important column for this model.
-
       - name: file_name
-        description: "The file name on S3"
-
+        description: The file name on S3
       - name: file_row_number
-        description: "The row number from the file on S3"
-
+        description: The row number from the file on S3
       - name: copied_at
-        description: "The time the data was copied into Snowflake"
-
+        description: The time the data was copied into Snowflake
       - name: address_json
-        description: "Renamed the address field to address_json to avoid name conflicts after it is unneseted."
-
+        description: Renamed the address field to address_json to avoid name conflicts
+          after it is unneseted.
       - name: age
         description: ""
-
       - name: bank
         description: ""
-
       - name: birthdate
         description: ""
-
       - name: bloodgroup
         description: ""
-
       - name: company_json
         description: ""
-
       - name: domain
         description: ""
-
       - name: ein
         description: ""
-
       - name: email
         description: ""
-
       - name: gender
         description: ""
-
       - name: height
         description: ""
-
       - name: image
         description: ""
-
       - name: lastname
         description: ""
-
       - name: macaddress
         description: ""
-
       - name: maidenname
         description: ""
-
       - name: password
         description: ""
-
       - name: phone
         description: ""
-
       - name: ssn
         description: ""
-
       - name: weight
         description: ""
-
       - name: eyecolor
         description: ""
-
       - name: ip
         description: ""
-
       - name: username
         description: ""
-
       - name: firstname
         description: ""
-
       - name: hair
         description: ""
-
       - name: useragent
         description: ""
-
       - name: id
-        description: "Unique id for the user"
+        description: Unique id for the user
         tests:
           - unique
           - not_null
-
       - name: university
         description: ""
-
   - name: users_03_address
-    description: "Unnests the address_json field on the users_02 table"
+    description: Unnests the address_json field on the users_02 table
     columns:
-
       - name: id
-        description: "User ID"
-
+        description: User ID
       - name: user_address
         description: ""
-
       - name: user_city
         description: ""
-
       - name: user_coordinates
         description: ""
-
       - name: user_state
         description: ""
-
       - name: user_postalcode
         description: ""
-
   - name: users_04_company_address
-    description: "Unnests the company_address field on the users_03_company table"
+    description: Unnests the company_address field on the users_03_company table
     columns:
-
-      - name: id
-        description: "User ID"
-
-      - name: company_address
-        description: "JSON data containing address details"
-
-      - name: company_city
+      - name: ID
+        description: User ID
+        data_type: VARIANT
+      - name: COMPANY_ADDRESS
+        description: JSON data containing address details
+        data_type: VARIANT
+      - name: COMPANY_CITY
         description: ""
-
-      - name: company_coordinates
+        data_type: VARIANT
+      - name: COMPANY_COORDINATES
         description: ""
-
-      - name: company_state
+        data_type: VARIANT
+      - name: COMPANY_STATE
         description: ""
-
-      - name: company_postalcode
+        data_type: VARIANT
+      - name: COMPANY_POSTALCODE
         description: ""
-
+        data_type: VARIANT
   - name: users_03_company
-    description: "Unnests the company_json field on the users_02 table"
+    description: Unnests the company_json field on the users_02 table
     columns:
-
       - name: id
-        description: "user ID"
-
+        description: user ID
       - name: company_address
         description: ""
-
       - name: company_department
         description: ""
-
       - name: company_name
         description: ""
-
       - name: company_job_title
         description: ""
-
   - name: users_d
-    description: | 
-      Joins models users_02, users_03_address, users_03_company_address, users_03_company to give a full picture of all elements related to the user
+    description: >
+      Joins models users_02, users_03_address, users_03_company_address,
+      users_03_company to give a full picture of all elements related to the
+      user
     columns:
-      - name: id
+      - name: ID
         description: ""
-        tests:
-          - unique
-          - not_null
-
-      - name: age
+        data_type: VARIANT
+      - name: USERS_JSON
         description: ""
-
-      - name: bank
+        data_type: VARIANT
+      - name: AGE
         description: ""
-
-      - name: birthdate
+        data_type: VARIANT
+      - name: BANK
         description: ""
-
-      - name: bloodgroup
+        data_type: VARIANT
+      - name: BIRTHDATE
         description: ""
-
-      - name: company_json
+        data_type: VARIANT
+      - name: BLOODGROUP
         description: ""
-
-      - name: domain
+        data_type: VARIANT
+      - name: COMPANY_JSON
         description: ""
-
-      - name: ein
+        data_type: VARIANT
+      - name: DOMAIN
         description: ""
-
-      - name: email
+        data_type: VARIANT
+      - name: EIN
         description: ""
-
-      - name: gender
+        data_type: VARIANT
+      - name: EMAIL
         description: ""
-
-      - name: height
+        data_type: VARIANT
+      - name: FIRSTNAME
         description: ""
-
-      - name: image
+        data_type: VARIANT
+      - name: GENDER
         description: ""
-
-      - name: lastname
+        data_type: VARIANT
+      - name: IP
         description: ""
-
-      - name: macaddress
+        data_type: VARIANT
+      - name: LASTNAME
         description: ""
-
-      - name: maidenname
+        data_type: VARIANT
+      - name: MACADDRESS
         description: ""
-
-      - name: password
+        data_type: VARIANT
+      - name: PASSWORD
         description: ""
-
-      - name: phone
+        data_type: VARIANT
+      - name: PHONE
         description: ""
-
-      - name: ssn
+        data_type: VARIANT
+      - name: USERAGENT
         description: ""
-
-      - name: weight
+        data_type: VARIANT
+      - name: USERNAME
         description: ""
-
-      - name: eyecolor
+        data_type: VARIANT
+      - name: HAIR
         description: ""
-
-      - name: ip
+        data_type: VARIANT
+      - name: HEIGHT
         description: ""
-
-      - name: username
+        data_type: VARIANT
+      - name: IMAGE
         description: ""
-
-      - name: firstname
+        data_type: VARIANT
+      - name: EYECOLOR
         description: ""
-
-      - name: hair
+        data_type: VARIANT
+      - name: MAIDENNAME
         description: ""
-
-      - name: useragent
+        data_type: VARIANT
+      - name: SSN
         description: ""
-
-      - name: university
+        data_type: VARIANT
+      - name: WEIGHT
         description: ""
-
-      - name: user_address
+        data_type: VARIANT
+      - name: UNIVERSITY
         description: ""
-
-      - name: user_city
+        data_type: VARIANT
+      - name: USER_ADDRESS
         description: ""
-
-      - name: user_coordinates
+        data_type: VARIANT
+      - name: USER_CITY
         description: ""
-
-      - name: user_state
+        data_type: VARIANT
+      - name: USER_COORDINATES
         description: ""
-
-      - name: user_postalcode
+        data_type: VARIANT
+      - name: USER_STATE
         description: ""
-
-      - name: company_department
+        data_type: VARIANT
+      - name: USER_POSTALCODE
         description: ""
-
-      - name: company_name
+        data_type: VARIANT
+      - name: COMPANY_DEPARTMENT
         description: ""
-
-      - name: company_job_title
+        data_type: VARIANT
+      - name: COMPANY_NAME
         description: ""
-
-      - name: company_address
+        data_type: VARIANT
+      - name: COMPANY_JOB_TITLE
         description: ""
-
-      - name: company_city
+        data_type: VARIANT
+      - name: COMPANY_ADDRESS
         description: ""
-
-      - name: company_coordinates
+        data_type: VARIANT
+      - name: COMPANY_CITY
         description: ""
-
-      - name: company_state
+        data_type: VARIANT
+      - name: COMPANY_COORDINATES
         description: ""
-
-      - name: company_postalcode
+        data_type: VARIANT
+      - name: COMPANY_STATE
         description: ""
-
- 
+        data_type: VARIANT
+      - name: COMPANY_POSTALCODE
+        description: ""
+        data_type: VARIANT
